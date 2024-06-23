@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:55:42 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/22 22:34:25 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/22 22:39:00 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,30 +146,30 @@ void	ft_lst_reset(t_list_ref *lst_ref)
 	lst_ref->bottom = NULL;
 	lst_ref->top = NULL;
 }
-void	ft_push_a(t_list_ref *lst_ref_a, t_list_ref *lst_ref_b)
+void	ft_push(t_list_ref *lst_ref_from, t_list_ref *lst_ref_to)
 {	
-	if (!lst_ref_a || !lst_ref_b || lst_ref_a == lst_ref_b || ft_stacksize(lst_ref_a) == 0)
+	if (!lst_ref_from || !lst_ref_to || lst_ref_from == lst_ref_to || ft_stacksize(lst_ref_from) == 0)
 		return;
-	if (ft_stacksize(lst_ref_b) > 0)
-		lst_ref_b->top->next = lst_ref_a->top;
+	if (ft_stacksize(lst_ref_to) > 0)
+		lst_ref_to->top->next = lst_ref_from->top;
 	else
-		lst_ref_b->top = lst_ref_a->top;
-	if (ft_stacksize(lst_ref_a) > 1)
+		lst_ref_to->top = lst_ref_from->top;
+	if (ft_stacksize(lst_ref_from) > 1)
 	{
-		lst_ref_a->top = lst_ref_a->top->previous;
-		lst_ref_a->top->next = NULL;
+		lst_ref_from->top = lst_ref_from->top->previous;
+		lst_ref_from->top->next = NULL;
 	}
 	else
-		ft_lst_reset(lst_ref_a);
-	if (lst_ref_b->bottom)
+		ft_lst_reset(lst_ref_from);
+	if (lst_ref_to->bottom)
 	{
-		lst_ref_b->top->next->previous = lst_ref_b->top;
-		lst_ref_b->top = lst_ref_b->top->next;
+		lst_ref_to->top->next->previous = lst_ref_to->top;
+		lst_ref_to->top = lst_ref_to->top->next;
 	}
 	else
 	{
-		lst_ref_b->bottom = lst_ref_b->top;
-		lst_ref_b->top->previous = NULL;
+		lst_ref_to->bottom = lst_ref_to->top;
+		lst_ref_to->top->previous = NULL;
 	}
 }
 
@@ -242,31 +242,39 @@ int main(void)
 	lst_top_print(lst_ref_a);
 
 	printf("\nPUSH A:\n");
-	ft_push_a(lst_ref_a,lst_ref_b);
+	ft_push(lst_ref_a,lst_ref_b);
 	printf("Lista A:\n");
 	lst_top_print(lst_ref_a);
 	printf("Lista B:\n");
 	lst_top_print(lst_ref_b);
 
 	printf("\nPUSH A:\n");
-	ft_push_a(lst_ref_a,lst_ref_b);
+	ft_push(lst_ref_a,lst_ref_b);
 	printf("Lista A:\n");
 	lst_top_print(lst_ref_a);
 	printf("Lista B:\n");
 	lst_top_print(lst_ref_b);
 
 	printf("\nPUSH A:\n");
-	ft_push_a(lst_ref_a,lst_ref_b);
+	ft_push(lst_ref_a,lst_ref_b);
 	printf("Lista A:\n");
 	lst_top_print(lst_ref_a);
 	printf("Lista B:\n");
 	lst_top_print(lst_ref_b);
 
 	printf("\nPUSH A:\n");
-	ft_push_a(lst_ref_a,lst_ref_b);
+	ft_push(lst_ref_a,lst_ref_b);
 	printf("Lista A:\n");
 	lst_top_print(lst_ref_a);
 	printf("Lista B:\n");
 	lst_top_print(lst_ref_b);
+
+	printf("\nPUSH B:\n");
+	ft_push(lst_ref_b,lst_ref_a);
+	printf("Lista A:\n");
+	lst_top_print(lst_ref_a);
+	printf("Lista B:\n");
+	lst_top_print(lst_ref_b);
+	
 	return 0;
 }
