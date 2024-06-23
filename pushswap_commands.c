@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:55:42 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/22 22:15:35 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/22 22:34:25 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,27 +140,27 @@ void	ft_lstrotate_down(t_list_ref *lst_ref)
 	//OLD TOP	
 	current_top->next = lst_ref->top;
 }
+
+void	ft_lst_reset(t_list_ref *lst_ref)
+{
+	lst_ref->bottom = NULL;
+	lst_ref->top = NULL;
+}
 void	ft_push_a(t_list_ref *lst_ref_a, t_list_ref *lst_ref_b)
 {	
 	if (!lst_ref_a || !lst_ref_b || lst_ref_a == lst_ref_b || ft_stacksize(lst_ref_a) == 0)
 		return;
-	//OLD TOP B
 	if (ft_stacksize(lst_ref_b) > 0)
 		lst_ref_b->top->next = lst_ref_a->top;
 	else
 		lst_ref_b->top = lst_ref_a->top;
-	//NEW TOP A
 	if (ft_stacksize(lst_ref_a) > 1)
 	{
 		lst_ref_a->top = lst_ref_a->top->previous;
 		lst_ref_a->top->next = NULL;
 	}
 	else
-	{
-		lst_ref_a->bottom = NULL;
-		lst_ref_a->top = NULL;
-	}
-	//NEW TOP B
+		ft_lst_reset(lst_ref_a);
 	if (lst_ref_b->bottom)
 	{
 		lst_ref_b->top->next->previous = lst_ref_b->top;
@@ -170,7 +170,7 @@ void	ft_push_a(t_list_ref *lst_ref_a, t_list_ref *lst_ref_b)
 	{
 		lst_ref_b->bottom = lst_ref_b->top;
 		lst_ref_b->top->previous = NULL;
-	}	
+	}
 }
 
 #include <stdio.h>
