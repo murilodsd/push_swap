@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:55:42 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/27 16:39:32 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:30:17 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,30 +206,30 @@ void	stack_bottom_print(t_stack_ref *stack_ref)
 }
 void	sort_stack_size3(t_stack_ref *stack_ref)
 {
-	//MENOR NO MEIO
-	if (stack_ref->top->nbr >= stack_ref->top->previous->nbr && stack_ref->bottom->nbr >= stack_ref->top->previous->nbr)
+	//MAIOR NO MEIO
+	if (stack_ref->top->nbr < stack_ref->top->previous->nbr && stack_ref->bottom->nbr < stack_ref->top->previous->nbr)
 	{
 		ft_stackrotate_down(stack_ref);
-		write(1,"rr",2);
-		write(1,&(stack_ref->stack_name),1);
-		write(1,"\n",1);
+		write(1, "rr", 2);
+		write(1, &(stack_ref->stack_name), 1);
+		write(1, "\n", 1);
 	}
-	//MENOR NO TOP
-	else if (stack_ref->top->nbr <= stack_ref->top->previous->nbr && stack_ref->top->nbr <= stack_ref->bottom->nbr)
-		{
-			ft_stackrotate_up(stack_ref);
-			write(1,"r",1);
-			write(1,&(stack_ref->stack_name),1);
-			write(1,"\n",1);
-		}
-	//MENOR NA BASE, MAS OS OUTROS TROCADOS
-	if (stack_ref->top->nbr < stack_ref->top->previous->nbr)
+	//MAIOR NO TOP
+	else if (stack_ref->top->nbr > stack_ref->top->previous->nbr && stack_ref->top->nbr > stack_ref->bottom->nbr)
+	{
+		ft_stackrotate_up(stack_ref);
+		write(1, "r", 1);
+		write(1, &(stack_ref->stack_name), 1);
+		write(1, "\n",1);
+	}
+	//MAIOR NA BASE, MAS OS OUTROS TROCADOS
+	if (stack_ref->top->nbr > stack_ref->top->previous->nbr)
 	{
 		ft_stackswaptop(stack_ref);
-		write(1,"s",1);
-		write(1,&(stack_ref->stack_name),1);
-		write(1,"\n",1);
-	}	
+		write(1, "s", 1);
+		write(1, &(stack_ref->stack_name), 1);
+		write(1, "\n", 1);
+	}
 }
 int	distance_from_top(t_stack_ref *stack_ref, t_stack *node)
 {
@@ -440,7 +440,7 @@ void	push_all_sorted(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
 	t_movement moviments;
 	int	i;
 
-	while (ft_stacksize(stack_ref_from) > 3 || (stack_ref_to->stack_name == 'a' && ft_stacksize(stack_ref_from) > 0))
+	while (ft_stacksize(stack_ref_from) > 0 || (stack_ref_to->stack_name == 'a' && ft_stacksize(stack_ref_from) > 0))
 	{
  		// printf("Lista A:\n");
 		// stack_top_print(stack_ref_from);
@@ -463,6 +463,44 @@ void	push_all_sorted(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
 		print_moviments(less_moviments, stack_ref_to);
 	}
 }
+void	rotate_max_top(t_stack_ref *stack_ref)
+{
+	int	i;
+	t_stack *top;
+	
+	top = stack_ref->top;
+	i = 0;
+	while (top->nbr < stack_ref->bottom->nbr)
+	{
+		i++;
+		top = top->previous;
+	}
+	if (ft_stacksize(stack_ref) - i >= i)
+	{
+		while (i--)
+		{
+			ft_stackrotate_up(stack_ref);
+			write(1, "rb\n", 3); 
+		}
+	}
+	else
+	{
+		while (ft_stacksize(stack_ref) - i++)
+		{
+			ft_stackrotate_down(stack_ref);
+			write(1, "rrb\n", 4); 
+		}
+	}
+}
+
+void	push_all_back_to_a(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
+{
+	while (ft_stacksize(stack_ref_from))
+	{
+		ft_stackpush(stack_ref_from, stack_ref_to);
+		write(1, "pa\n", 3);
+	}
+}
 
 int main(int argc , char *argv[])
 {
@@ -478,9 +516,17 @@ int main(int argc , char *argv[])
 		write(1,"pb\n",3);
 	}
 	push_all_sorted(stack_ref_a, stack_ref_b);
-	sort_stack_size3(stack_ref_a);
-	push_all_sorted(stack_ref_b, stack_ref_a);
-	// printf("Lista A:\n");
+	//printf("Ajustando size 3:\n");
+	//sort_stack_size3(stack_ref_a);
+	//printf("Ajustando lista b:\n");
+	rotate_max_top(stack_ref_b);
+	//printf("Lista A:\n");
+	//stack_top_print(stack_ref_a);
+	//printf("Lista B:\n");
+	//stack_top_print(stack_ref_b);
+	//push_all_sorted(stack_ref_b, stack_ref_a);
+	push_all_back_to_a(stack_ref_b, stack_ref_a);
+	//printf("Lista A:\n");
 	// stack_top_print(stack_ref_a);
 	// printf("Lista B:\n");
 	// stack_top_print(stack_ref_b);
