@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:28:27 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/21 21:17:25 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/27 09:54:40 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,31 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct s_list
+typedef struct s_stack
 {
 	int				nbr;
-	struct s_list	*previous;
-	struct s_list	*next;
-}	t_list;
+	struct s_stack	*previous;
+	struct s_stack	*next;
+}	t_stack;
 
-typedef struct s_list_ref
+typedef struct s_stack_ref
 {
-	t_list	*bottom;
-	t_list	*top;
-}	t_list_ref;
+	t_stack	*bottom;
+	t_stack	*top;
+	int	size;
+	char	stack_name;
+}	t_stack_ref;
 
+typedef struct movements
+{
+	int	ra;
+	int	rb;
+	int	rr;
+	int	rra;
+	int	rrb;
+	int	rrr;
+} t_movement;
 
-void	ft_lstswap(t_list_ref *lst_ref,t_list *previous, t_list *next);
-t_list_ref	*ft_lstnewref(void);
+int	ft_atoi(const char *nptr);
 
 #endif
