@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:28:27 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/27 09:54:40 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/29 22:42:25 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_stack_ref
 {
 	t_stack	*bottom;
 	t_stack	*top;
-	int	size;
 	char	stack_name;
 }	t_stack_ref;
 
@@ -42,5 +41,10 @@ typedef struct movements
 } t_movement;
 
 int	ft_atoi(const char *nptr);
+t_stack_ref	*ft_stacknewref(char stack_name);
+t_stack	*ft_stacknewnode(int nbr);
+void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new);
+int	ft_stacksize(t_stack_ref *stack_ref);
+void	ft_stackfree(t_stack_ref **stack_ref);
 
 #endif

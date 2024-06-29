@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:55:42 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/29 09:04:32 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/29 23:43:51 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_stack_ref	*ft_stacknewref(char stack_name)
 		return (NULL);
 	stack_ref->bottom = NULL;
 	stack_ref->top = NULL;
-	stack_ref->size = 0;
 	stack_ref->stack_name = stack_name;
 	return (stack_ref);
 }
