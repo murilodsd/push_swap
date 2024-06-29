@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:55:42 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/27 20:30:17 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/29 09:04:32 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,6 +302,26 @@ int	adjust_stack_b(t_stack_ref *stack_ref, int nbr_node)
 	return (i - ft_stacksize(stack_ref));
 }
 
+int	adjust_stack_a(t_stack_ref *stack_ref, int nbr_node)
+{
+	int	i;
+	t_stack *top;
+	t_stack *bottom;
+	
+	top = stack_ref->top;
+	bottom = stack_ref->bottom;
+	i = 0;
+	while (!(is_adjust_to_max(top, bottom, nbr_node) || is_adjust_to_min(top, bottom, nbr_node) || is_adjust_to_center(top, bottom, nbr_node)))
+	{
+		i++;
+		bottom = top;
+		top = top->previous;
+	}
+	if (ft_stacksize(stack_ref) - i >= i)
+		return (i);
+	return (i - ft_stacksize(stack_ref));
+}
+
 t_stack_ref	*ft_initstack(int argc, char *argv[], char stack_name)
 {
 	t_stack_ref	*stack_ref;
@@ -353,14 +373,22 @@ t_movement 	calculate_moves(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_
 		moves_to_the_top--;
 		moves_to_adjuste--;
 	}
-	optimized_moves.ra += (moves_to_the_top > 0 && stack_ref_from->stack_name == 'a') * moves_to_the_top;
-	optimized_moves.ra += (moves_to_adjuste > 0 && stack_ref_to->stack_name == 'a') * moves_to_adjuste;
-	optimized_moves.rra -= (moves_to_the_top < 0 && stack_ref_from->stack_name == 'a') * moves_to_the_top;
-	optimized_moves.rra -= (moves_to_adjuste < 0 && stack_ref_to->stack_name == 'a') * moves_to_adjuste;
-	optimized_moves.rb += (moves_to_the_top > 0 && stack_ref_from->stack_name == 'b') * moves_to_the_top;
-	optimized_moves.rb += (moves_to_adjuste > 0 && stack_ref_to->stack_name == 'b') * moves_to_adjuste;
-	optimized_moves.rrb -= (moves_to_the_top < 0 && stack_ref_from->stack_name == 'b') * moves_to_the_top;
-	optimized_moves.rrb -= (moves_to_adjuste < 0 && stack_ref_to->stack_name == 'b') * moves_to_adjuste;
+	optimized_moves.ra += (moves_to_the_top > 0
+			&& stack_ref_from->stack_name == 'a') * moves_to_the_top;
+	optimized_moves.ra += (moves_to_adjuste > 0
+			&& stack_ref_to->stack_name == 'a') * moves_to_adjuste;
+	optimized_moves.rra -= (moves_to_the_top < 0
+			&& stack_ref_from->stack_name == 'a') * moves_to_the_top;
+	optimized_moves.rra -= (moves_to_adjuste < 0
+			&& stack_ref_to->stack_name == 'a') * moves_to_adjuste;
+	optimized_moves.rb += (moves_to_the_top > 0
+			&& stack_ref_from->stack_name == 'b') * moves_to_the_top;
+	optimized_moves.rb += (moves_to_adjuste > 0
+			&& stack_ref_to->stack_name == 'b') * moves_to_adjuste;
+	optimized_moves.rrb -= (moves_to_the_top < 0
+			&& stack_ref_from->stack_name == 'b') * moves_to_the_top;
+	optimized_moves.rrb -= (moves_to_adjuste < 0
+			&& stack_ref_to->stack_name == 'b') * moves_to_adjuste;
 	return (optimized_moves);
 }
 int	count_movements(t_movement movements)
@@ -440,12 +468,8 @@ void	push_all_sorted(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
 	t_movement moviments;
 	int	i;
 
-	while (ft_stacksize(stack_ref_from) > 0 || (stack_ref_to->stack_name == 'a' && ft_stacksize(stack_ref_from) > 0))
+	while (ft_stacksize(stack_ref_from) > 3 || (stack_ref_to->stack_name == 'a' && ft_stacksize(stack_ref_from) > 0))
 	{
- 		// printf("Lista A:\n");
-		// stack_top_print(stack_ref_from);
-		// printf("Lista B:\n");
-		// stack_top_print(stack_ref_to);
 		less_moviments = calculate_moves(stack_ref_from, stack_ref_to, stack_ref_from->top);
 		node_rotate = stack_ref_from->top->previous;
 		node_reverse_rotate = stack_ref_from->bottom;
@@ -457,6 +481,8 @@ void	push_all_sorted(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
 			moviments = calculate_moves(stack_ref_from, stack_ref_to, node_reverse_rotate);
 			less_moviments = compare_moviments(less_moviments, moviments);
 			i++;
+			node_rotate = node_rotate->previous;
+			node_reverse_rotate = node_reverse_rotate->next;
 		}
 		execute_moviments(less_moviments, stack_ref_from, stack_ref_to);
 		ft_stackpush(stack_ref_from, stack_ref_to);
@@ -495,10 +521,25 @@ void	rotate_max_top(t_stack_ref *stack_ref)
 
 void	push_all_back_to_a(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
 {
+	int	count_a_rotate;
+	
+	count_a_rotate = 0;
 	while (ft_stacksize(stack_ref_from))
 	{
+		while (stack_ref_from->top->nbr < stack_ref_to->bottom->nbr && count_a_rotate < 3)
+		{
+			ft_stackrotate_down(stack_ref_to);
+			write(1, "rra\n", 4);
+			count_a_rotate++;
+		}
 		ft_stackpush(stack_ref_from, stack_ref_to);
 		write(1, "pa\n", 3);
+	}
+	while (count_a_rotate < 3)
+	{
+		ft_stackrotate_down(stack_ref_to);
+		write(1, "rra\n", 4);
+		count_a_rotate++;
 	}
 }
 
@@ -517,16 +558,16 @@ int main(int argc , char *argv[])
 	}
 	push_all_sorted(stack_ref_a, stack_ref_b);
 	//printf("Ajustando size 3:\n");
-	//sort_stack_size3(stack_ref_a);
+	sort_stack_size3(stack_ref_a);
 	//printf("Ajustando lista b:\n");
-	rotate_max_top(stack_ref_b);
 	//printf("Lista A:\n");
 	//stack_top_print(stack_ref_a);
 	//printf("Lista B:\n");
 	//stack_top_print(stack_ref_b);
 	//push_all_sorted(stack_ref_b, stack_ref_a);
+	rotate_max_top(stack_ref_b);
 	push_all_back_to_a(stack_ref_b, stack_ref_a);
-	//printf("Lista A:\n");
+	// printf("Lista A:\n");
 	// stack_top_print(stack_ref_a);
 	// printf("Lista B:\n");
 	// stack_top_print(stack_ref_b);

@@ -6,7 +6,15 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:49:28 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/21 20:52:10 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/29 08:47:30 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+int	main(int argc, char const *argv[])
+{
+	long unsigned	x;
+	int				y;
+
+	return (0);
+
+}

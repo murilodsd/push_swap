@@ -1,0 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test_ft_stacknewnode.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 09:20:29 by mde-souz          #+#    #+#             */
+/*   Updated: 2024/06/29 10:06:54 by mde-souz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minunit.h"
+#include "pushswap.h"
+
+MU_TEST(test_ft_stacknewnode) //Se colocarmos mais de um teste aqui e um deles falhar, os seguintes não serão executados
+{
+    int		nbr = 5;
+    t_stack	*node;
+    
+    node = ft_stacknewnode(nbr);
+    mu_assert(node == NULL, "node should not be NULL");
+    mu_assert(node->nbr == 5, "node nbr should be equal to input nbr");
+    mu_assert_int_eq(5, node->nbr);
+    mu_assert(node->previous == NULL, "previous node should be NULL for a new node");
+    mu_assert(node->next == NULL, "next node should be NULL for a new node");
+	free(node);
+}
+MU_TEST(test_node_previous)
+{
+    //ARRANGE (CONFIGURAÇÃO DO AMBIENTE DE TESTE)
+    int		nbr = 5;
+    t_stack	*node;
+    
+    //ACT (AÇÃO A SER TESTADA)
+    node = ft_stacknewnode(nbr);
+    
+    //ASSERT (VERIFICAR SE RESULTADO É O ESPERADO)
+    mu_assert(node->previous != NULL, "previous node should be NULL for a new node");
+	
+    free(node);
+}
+MU_TEST(test_node_next)
+{
+    //ARRANGE (CONFIGURAÇÃO DO AMBIENTE DE TESTE)
+    int		nbr = 5;
+    t_stack	*node;
+    
+    //ACT (AÇÃO A SER TESTADA)
+    node = ft_stacknewnode(nbr);
+    
+    //ASSERT (VERIFICAR SE RESULTADO É O ESPERADO)
+    mu_assert_int_eq((int) NULL, (int)node->next);
+	
+    free(node);
+}
+
+MU_TEST_SUITE(test_suite) {
+    MU_RUN_TEST(test_ft_stacknewnode);
+    MU_RUN_TEST(test_node_previous);
+    MU_RUN_TEST(test_node_next);
+}
+
+int main(int argc, char *argv[]) {
+    MU_RUN_SUITE(test_suite);
+    MU_REPORT();
+    return minunit_status;
+}
