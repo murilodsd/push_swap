@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:50:17 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/29 22:41:33 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/30 22:39:03 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_stack_ref	*ft_stacknewref(char stack_name)
 		return (NULL);
 	stack_ref->bottom = NULL;
 	stack_ref->top = NULL;
-	stack_ref->stack_name = stack_name;
+	stack_ref->name = stack_name;
 	return (stack_ref);
 }
 
@@ -37,6 +37,7 @@ t_stack	*ft_stacknewnode(int nbr)
 	node->next = NULL;
 	return (node);
 }
+
 void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new)
 {
 	if (!stack_ref || !new)
@@ -45,7 +46,7 @@ void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new)
 	{
 		stack_ref->bottom = new;
 		stack_ref->top = new;
-	}	
+	}
 	else
 	{
 		stack_ref->top->next = new;
@@ -54,11 +55,12 @@ void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new)
 		stack_ref->top = new;
 	}
 }
+
 int	ft_stacksize(t_stack_ref *stack_ref)
 {
-	int	count;
+	int		count;
 	t_stack	*tmp;
-	
+
 	tmp = stack_ref->bottom;
 	count = 0;
 	while (tmp)

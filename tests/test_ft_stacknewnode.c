@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 09:20:29 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/29 23:44:49 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:53:43 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ MU_TEST_SUITE(test_suite) {
     MU_RUN_TEST(test_node_previous);
     MU_RUN_TEST(test_node_next);
 }
-
 
 
 int main(int argc, char *argv[]) {
