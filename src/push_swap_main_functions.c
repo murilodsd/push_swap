@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 20:33:16 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 15:06:50 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:09:17 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	rotate_max_top(t_stack_ref *stack_ref)
 		i++;
 		top = top->previous;
 	}
-	while (top->nbr < stack_ref->bottom->nbr)
+	while (stack_ref->top->nbr < stack_ref->bottom->nbr)
 	{
 		if (ft_stacksize(stack_ref) - i >= i)
 		{
@@ -119,6 +119,21 @@ void	push_all_back_to_a(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
 		count_a_rotate++;
 	}
 }
+#include <stdio.h>
+void	stack_top_print(t_stack_ref *stack_ref)
+{
+	t_stack	*tmp;
+
+	tmp = stack_ref->top;
+	while (tmp)
+	{
+		printf("%d ",tmp->nbr);
+		tmp = tmp->previous;
+	}
+	if (stack_ref->top && stack_ref->bottom)
+		printf("\nTop: %d Bottom: %d",stack_ref->top->nbr,stack_ref->bottom->nbr);
+	printf("\ntamanho da lista: %d\n\n",ft_stacksize(stack_ref));
+}
 
 int main(int argc , char *argv[])
 {
@@ -144,6 +159,11 @@ int main(int argc , char *argv[])
 	//stack_top_print(stack_ref_b);
 	//push_all_sorted(stack_ref_b, stack_ref_a);
 	rotate_max_top(stack_ref_b);
+	// printf("Lista A:\n");
+	// stack_top_print(stack_ref_a);
+	// printf("Lista B:\n");
+	// stack_top_print(stack_ref_b);
 	push_all_back_to_a(stack_ref_b, stack_ref_a);
+	// stack_top_print(stack_ref_a);
 	return (0);
 }
