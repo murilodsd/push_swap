@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 20:33:16 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 16:09:17 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:15:42 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,41 +37,39 @@ void	sort_stack_size3(t_stack_ref *stack_ref)
 	}
 }
 
-void	push_all_sorted(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
+void	push_all_sorted(t_stack_ref *stack_a, t_stack_ref *stack_b)
 {
-	t_stack		*node_rotate;
-	t_stack		*node_reverse_rotate;
-	t_movement	less_movements;
-	t_movement	movements;
-	int			i;
+	t_stack	*node_rotate;
+	t_stack	*node_reverse_rotate;
+	t_moves	less_moves;
+	t_moves	moves;
+	int		i;
 
-	while (ft_stacksize(stack_ref_from) > 3
-		|| (stack_ref_to->name == 'a' && ft_stacksize(stack_ref_from) > 0))
+	while (ft_stacksize(stack_a) > 3)
 	{
-		less_movements = calculate_moves(stack_ref_from, stack_ref_to, stack_ref_from->top);
-		node_rotate = stack_ref_from->top->previous;
-		node_reverse_rotate = stack_ref_from->bottom;
+		less_moves = calc_moves(stack_a, stack_b, stack_a->top);
+		node_rotate = stack_a->top->previous;
+		node_reverse_rotate = stack_a->bottom;
 		i = 1;
-		while(i < count_movements(less_movements) && i <= ft_stacksize(stack_ref_from)/2)
+		while (i < count_moves(less_moves) && i <= ft_stacksize(stack_a) / 2)
 		{
-			movements = calculate_moves(stack_ref_from, stack_ref_to, node_rotate);
-			less_movements = compare_movements(less_movements, movements);
-			movements = calculate_moves(stack_ref_from, stack_ref_to, node_reverse_rotate);
-			less_movements = compare_movements(less_movements, movements);
+			moves = calc_moves(stack_a, stack_b, node_rotate);
+			less_moves = compare_moves(less_moves, moves);
+			moves = calc_moves(stack_a, stack_b, node_reverse_rotate);
+			less_moves = compare_moves(less_moves, moves);
 			i++;
 			node_rotate = node_rotate->previous;
 			node_reverse_rotate = node_reverse_rotate->next;
 		}
-		execute_movements(less_movements, stack_ref_from, stack_ref_to);
-		print_movements(less_movements, stack_ref_to);
+		execute_moves(less_moves, stack_a, stack_b);
 	}
 }
 
 void	rotate_max_top(t_stack_ref *stack_ref)
 {
-	int	i;
-	t_stack *top;
-	
+	int		i;
+	t_stack	*top;
+
 	if (ft_stacksize(stack_ref) < 2)
 		return ;
 	top = stack_ref->top;
@@ -91,34 +89,35 @@ void	rotate_max_top(t_stack_ref *stack_ref)
 		else
 		{
 			stackrotate_down(stack_ref);
-			write(1, "rrb\n", 4); 	
+			write(1, "rrb\n", 4);
 		}
 	}
 }
 
-void	push_all_back_to_a(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
+void	push_all_back_to_a(t_stack_ref *stack_from, t_stack_ref *stack_to)
 {
 	int	count_a_rotate;
-	
+
 	count_a_rotate = 0;
-	while (ft_stacksize(stack_ref_from))
+	while (ft_stacksize(stack_from))
 	{
-		while (stack_ref_from->top->nbr < stack_ref_to->bottom->nbr && count_a_rotate < 3)
+		while (stack_from->top->nbr < stack_to->bottom->nbr && count_a_rotate < 3)
 		{
-			stackrotate_down(stack_ref_to);
+			stackrotate_down(stack_to);
 			write(1, "rra\n", 4);
 			count_a_rotate++;
 		}
-		stackpushfromto(stack_ref_from, stack_ref_to);
+		stackpushfromto(stack_from, stack_to);
 		write(1, "pa\n", 3);
 	}
-	while (stack_ref_to->top->nbr > stack_ref_to->bottom->nbr)
+	while (stack_to->top->nbr > stack_to->bottom->nbr)
 	{
-		stackrotate_down(stack_ref_to);
+		stackrotate_down(stack_to);
 		write(1, "rra\n", 4);
 		count_a_rotate++;
 	}
 }
+
 #include <stdio.h>
 void	stack_top_print(t_stack_ref *stack_ref)
 {
@@ -135,18 +134,26 @@ void	stack_top_print(t_stack_ref *stack_ref)
 	printf("\ntamanho da lista: %d\n\n",ft_stacksize(stack_ref));
 }
 
-int main(int argc , char *argv[])
+int	main(int argc , char *argv[])
 {
-	t_stack_ref *stack_ref_a;
-	t_stack_ref *stack_ref_b;
-	
+	t_stack_ref	*stack_ref_a;
+	t_stack_ref	*stack_ref_b;
+
+	if (!is_valid_arguments(argc, argv))
+	{
+		if (argc != 1)
+			write(1, "Error\n", 6);
+		return (0);
+	}
 	stack_ref_a = ft_initstack(argc, argv, 'a');
+	if (!stack_ref_a)
+		return (0);
 	stack_ref_b = ft_stacknewref('b');
 	//printf("tamanho a: %d\ntamanho b: %d\n",ft_stacksize(stack_ref_a),ft_stacksize(stack_ref_b));
 	while (ft_stacksize(stack_ref_a) > 3 && ft_stacksize(stack_ref_b) < 2)
 	{
-		stackpushfromto(stack_ref_a,stack_ref_b);
-		write(1,"pb\n",3);
+		stackpushfromto(stack_ref_a, stack_ref_b);
+		write(1, "pb\n", 3);
 	}
 	push_all_sorted(stack_ref_a, stack_ref_b);
 	//printf("Ajustando size 3:\n");

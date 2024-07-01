@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_calculate_moves.c                        :+:      :+:    :+:   */
+/*   push_swap_calc_moves.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:46:42 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 08:51:32 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:49:46 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	distance_from_top(t_stack_ref *stack_ref, t_stack *node)
 	return (-i);
 }
 
-static int	is_adjust_to_max_min_or_center(t_stack *top, t_stack *bottom, int nbr_node)
+static int	is_adjust(t_stack *top, t_stack *bottom, int nbr_node)
 {
 	int	nbr_top;
 	int	nbr_bottom;
@@ -59,7 +59,7 @@ static int	adjust_stack_b(t_stack_ref *stack_ref, int nbr_node)
 	top = stack_ref->top;
 	bottom = stack_ref->bottom;
 	i = 0;
-	while (!is_adjust_to_max_min_or_center(top, bottom, nbr_node))
+	while (!is_adjust(top, bottom, nbr_node))
 	{
 		i++;
 		bottom = top;
@@ -70,42 +70,31 @@ static int	adjust_stack_b(t_stack_ref *stack_ref, int nbr_node)
 	return (i - ft_stacksize(stack_ref));
 }
 
-t_movement 	calculate_moves(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to, t_stack *node)
+t_moves	calc_moves(t_stack_ref *stack_ref_a,
+	t_stack_ref *stack_ref_b, t_stack *node)
 {
-	t_movement optimized_moves;
-	int	moves_to_the_top;
-	int	moves_to_adjuste;
+	t_moves	optimized_moves;
+	int		moves_to_the_top;
+	int		moves_to_adjust;
 
-	optimized_moves = init_movements();
-	moves_to_the_top = distance_from_top(stack_ref_from,node);
-	moves_to_adjuste = adjust_stack_b(stack_ref_to,node->nbr);
-	while (moves_to_the_top < 0 && moves_to_adjuste < 0)
+	optimized_moves = init_moves();
+	moves_to_the_top = distance_from_top(stack_ref_a, node);
+	moves_to_adjust = adjust_stack_b(stack_ref_b, node->nbr);
+	while (moves_to_the_top < 0 && moves_to_adjust < 0)
 	{
 		optimized_moves.rrr++;
 		moves_to_the_top++;
-		moves_to_adjuste++;
+		moves_to_adjust++;
 	}
-	while (moves_to_the_top > 0 && moves_to_adjuste > 0)
+	while (moves_to_the_top > 0 && moves_to_adjust > 0)
 	{
 		optimized_moves.rr++;
 		moves_to_the_top--;
-		moves_to_adjuste--;
+		moves_to_adjust--;
 	}
-	optimized_moves.ra += (moves_to_the_top > 0
-			&& stack_ref_from->name == 'a') * moves_to_the_top;
-	optimized_moves.ra += (moves_to_adjuste > 0
-			&& stack_ref_to->name == 'a') * moves_to_adjuste;
-	optimized_moves.rra -= (moves_to_the_top < 0
-			&& stack_ref_from->name == 'a') * moves_to_the_top;
-	optimized_moves.rra -= (moves_to_adjuste < 0
-			&& stack_ref_to->name == 'a') * moves_to_adjuste;
-	optimized_moves.rb += (moves_to_the_top > 0
-			&& stack_ref_from->name == 'b') * moves_to_the_top;
-	optimized_moves.rb += (moves_to_adjuste > 0
-			&& stack_ref_to->name == 'b') * moves_to_adjuste;
-	optimized_moves.rrb -= (moves_to_the_top < 0
-			&& stack_ref_from->name == 'b') * moves_to_the_top;
-	optimized_moves.rrb -= (moves_to_adjuste < 0
-			&& stack_ref_to->name == 'b') * moves_to_adjuste;
+	optimized_moves.ra += (moves_to_the_top > 0) * moves_to_the_top;
+	optimized_moves.rra -= (moves_to_the_top < 0) * moves_to_the_top;
+	optimized_moves.rb += (moves_to_adjust > 0) * moves_to_adjust;
+	optimized_moves.rrb -= (moves_to_adjust < 0) * moves_to_adjust;
 	return (optimized_moves);
 }

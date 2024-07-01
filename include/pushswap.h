@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:28:27 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 13:30:57 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:02:24 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_stack_ref
 	char	name;
 }	t_stack_ref;
 
-typedef struct movements
+typedef struct moves
 {
 	int	ra;
 	int	rb;
@@ -40,9 +40,9 @@ typedef struct movements
 	int	rra;
 	int	rrb;
 	int	rrr;
-} t_movement;
+} t_moves;
 
-int	ft_atoi(const char *nptr);
+int	is_valid_arguments(int argc, char *argv[]);
 t_stack_ref	*ft_stacknewref(char stack_name);
 t_stack	*ft_stacknewnode(int nbr);
 void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new);
@@ -51,16 +51,16 @@ int		ft_stacksize(t_stack_ref *stack_ref);
 void	ft_stackfree(t_stack_ref **stack_ref);
 void	ft_stack_reset(t_stack_ref *stack_ref);
 t_stack_ref	*ft_initstack(int argc, char *argv[], char stack_name);
-t_movement	init_movements(void);
+t_moves	init_moves(void);
 void	stackswaptop(t_stack_ref *stack_ref);
 void	stackrotate_up(t_stack_ref *stack_ref);
 void	stackrotate_down(t_stack_ref *stack_ref);
 void	stackpushfromto(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to);
 int		distance_from_top(t_stack_ref *stack_ref, t_stack *node);
 void	sort_stack_size3(t_stack_ref *stack_ref);
-t_movement 	calculate_moves(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to, t_stack *node);
-int	count_movements(t_movement movements);
-t_movement	compare_movements(t_movement movements_a, t_movement movements_b);
-void	print_movements(t_movement movements, t_stack_ref *stack_ref_to);
-void	execute_movements(t_movement movements, t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to);
+t_moves 	calc_moves(t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to, t_stack *node);
+int	count_moves(t_moves moves);
+t_moves	compare_moves(t_moves moves_a, t_moves moves_b);
+void	print_moves(t_moves moves, t_stack_ref *stack_ref_to);
+void	execute_moves(t_moves moves, t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to);
 #endif

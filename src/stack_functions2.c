@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:10:46 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 13:25:48 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:22:32 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_stackprepend(t_stack_ref *stack_ref, t_stack *new)
 	{
 		stack_ref->bottom = new;
 		stack_ref->top = new;
-	}	
+	}
 	else
 	{
 		stack_ref->bottom->previous = new;

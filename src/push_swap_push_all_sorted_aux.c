@@ -6,78 +6,68 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:57:00 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 13:21:09 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:21:42 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int	count_movements(t_movement movements)
+int	count_moves(t_moves moves)
 {
 	int	count_mov_rotate;
 	int	count_mov_reverse_rotate;
 
-	count_mov_rotate = movements.ra + movements.rb + movements.rr;
-	count_mov_reverse_rotate = movements.rra + movements.rrb + movements.rrr;
+	count_mov_rotate = moves.ra + moves.rb + moves.rr;
+	count_mov_reverse_rotate = moves.rra + moves.rrb + moves.rrr;
 	return (count_mov_rotate + count_mov_reverse_rotate);
 }
-t_movement	compare_movements(t_movement movements_a, t_movement movements_b)
+
+t_moves	compare_moves(t_moves moves_a, t_moves moves_b)
 {
-	if (count_movements(movements_a) <= count_movements(movements_b))
-		return (movements_a);
-	return (movements_b);
+	if (count_moves(moves_a) <= count_moves(moves_b))
+		return (moves_a);
+	return (moves_b);
 }
-void	print_movements(t_movement movements, t_stack_ref *stack_ref_to)
+
+void	print_moves(t_moves moves, t_stack_ref *stack_ref_to)
 {
-	while (movements.ra--)
+	while (moves.ra--)
 		write(1, "ra\n", 3);
-	while (movements.rb--)
+	while (moves.rb--)
 		write(1, "rb\n", 3);
-	while (movements.rra--)
+	while (moves.rra--)
 		write(1, "rra\n", 4);
-	while (movements.rrb--)
+	while (moves.rrb--)
 		write(1, "rrb\n", 4);
-	while (movements.rr--)
+	while (moves.rr--)
 		write(1, "rr\n", 3);
-	while (movements.rrr--)
+	while (moves.rrr--)
 		write(1, "rrr\n", 4);
 	write(1, "p", 1);
 	write(1, &(stack_ref_to->name), 1);
-	write(1, "\n" , 1);
+	write(1, "\n", 1);
 }
-//AQUI ACHO QUE VOU MUDAR DE FROM PARA A E DE TO PARA B
-void	execute_movements(t_movement movements, t_stack_ref *stack_ref_from, t_stack_ref *stack_ref_to)
-{
-	t_stack_ref *stack_ref_a;
-	t_stack_ref *stack_ref_b;
 
-	if (stack_ref_from->name == 'a')
+void	execute_moves(t_moves moves, t_stack_ref *stack_a, t_stack_ref *stack_b)
+{
+	print_moves(moves, stack_b);
+	while (moves.ra--)
+		stackrotate_up(stack_a);
+	while (moves.rb--)
+		stackrotate_up(stack_b);
+	while (moves.rra--)
+		stackrotate_down(stack_a);
+	while (moves.rrb--)
+		stackrotate_down(stack_b);
+	while (moves.rr--)
 	{
-		stack_ref_a = stack_ref_from;
-		stack_ref_b = stack_ref_to;
+		stackrotate_up(stack_b);
+		stackrotate_up(stack_a);
 	}
-	else
+	while (moves.rrr--)
 	{
-		stack_ref_b = stack_ref_from;
-		stack_ref_a = stack_ref_to;
+		stackrotate_down(stack_a);
+		stackrotate_down(stack_b);
 	}
-	while (movements.ra--)
-		stackrotate_up(stack_ref_a);
-	while (movements.rb--)
-		stackrotate_up(stack_ref_b);
-	while (movements.rra--)
-		stackrotate_down(stack_ref_a);
-	while (movements.rrb--)
-		stackrotate_down(stack_ref_b);
-	while (movements.rr--)
-	{
-		stackrotate_up(stack_ref_b);
-		stackrotate_up(stack_ref_a);
-	}
-	while (movements.rrr--)
-	{
-		stackrotate_down(stack_ref_a);
-		stackrotate_down(stack_ref_b);
-	}
-	stackpushfromto(stack_ref_from, stack_ref_to);
+	stackpushfromto(stack_a, stack_b);
 }
