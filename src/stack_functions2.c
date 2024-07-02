@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:10:46 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 19:22:32 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:12:02 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,75 @@ void	ft_stackprepend(t_stack_ref *stack_ref, t_stack *new)
 		new->next = stack_ref->bottom;
 		new->previous = NULL;
 		stack_ref->bottom = new;
+	}
+}
+
+int	ft_stack_issorted(t_stack_ref *stack_ref)
+{
+	t_stack	*tmp;
+
+	tmp = stack_ref->bottom;
+	while (tmp->next)
+	{
+		if (tmp->nbr < tmp->next->nbr)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+void	rotate_max_top(t_stack_ref *stack_ref)
+{
+	int		i;
+	t_stack	*top;
+
+	if (ft_stacksize(stack_ref) < 2)
+		return ;
+	top = stack_ref->top;
+	i = 0;
+	while (top->nbr < stack_ref->bottom->nbr)
+	{
+		i++;
+		top = top->previous;
+	}
+	while (stack_ref->top->nbr < stack_ref->bottom->nbr)
+	{
+		if (ft_stacksize(stack_ref) - i >= i)
+		{
+			stackrotate_up(stack_ref);
+			write(1, "rb\n", 3);
+		}
+		else
+		{
+			stackrotate_down(stack_ref);
+			write(1, "rrb\n", 4);
+		}
+	}
+}
+
+void	rotate_min_top(t_stack_ref *stack_ref)
+{
+	int		i;
+	t_stack	*top;
+
+	top = stack_ref->top;
+	i = 0;
+	while (top->nbr > stack_ref->bottom->nbr)
+	{
+		i++;
+		top = top->previous;
+	}
+	while (stack_ref->top->nbr > stack_ref->bottom->nbr)
+	{
+		if (ft_stacksize(stack_ref) - i >= i)
+		{
+			stackrotate_up(stack_ref);
+			write(1, "ra\n", 3);
+		}
+		else
+		{
+			stackrotate_down(stack_ref);
+			write(1, "rra\n", 4);
+		}
 	}
 }

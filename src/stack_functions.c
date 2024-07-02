@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:50:17 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/06/30 22:39:03 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:41:03 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,6 @@ t_stack	*ft_stacknewnode(int nbr)
 	node->previous = NULL;
 	node->next = NULL;
 	return (node);
-}
-
-void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new)
-{
-	if (!stack_ref || !new)
-		return ;
-	if (!(stack_ref->bottom))
-	{
-		stack_ref->bottom = new;
-		stack_ref->top = new;
-	}
-	else
-	{
-		stack_ref->top->next = new;
-		new->previous = stack_ref->top;
-		new->next = NULL;
-		stack_ref->top = new;
-	}
 }
 
 int	ft_stacksize(t_stack_ref *stack_ref)
@@ -87,4 +69,29 @@ void	ft_stackfree(t_stack_ref **stack_ref)
 	}
 	free(*stack_ref);
 	*stack_ref = NULL;
+}
+
+void	sort_stack_size3(t_stack_ref *stack_ref)
+{
+	if (ft_stacksize(stack_ref) != 3)
+		return ;
+	if (stack_ref->top->nbr < stack_ref->top->previous->nbr
+		&& stack_ref->bottom->nbr < stack_ref->top->previous->nbr)
+	{
+		stackrotate_down(stack_ref);
+		ft_printf("rr%c\n", stack_ref->name);
+	}
+	//MAIOR NO TOP
+	else if (stack_ref->top->nbr > stack_ref->top->previous->nbr
+		&& stack_ref->top->nbr > stack_ref->bottom->nbr)
+	{
+		stackrotate_up(stack_ref);
+		ft_printf("r%c\n", stack_ref->name);
+	}
+	//MAIOR NA BASE, MAS OS OUTROS TROCADOS
+	if (stack_ref->top->nbr > stack_ref->top->previous->nbr)
+	{
+		stackswaptop(stack_ref);
+		ft_printf("s%c\n", stack_ref->name);
+	}
 }

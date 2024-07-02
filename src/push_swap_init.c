@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 22:46:58 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/01 19:03:39 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:38:42 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ t_moves	init_moves(void)
 	return (moves);
 }
 
+static int	check_numbers(int argc, char *argv[])
+{
+	int	i;
+
+	if (ft_atoi(argv[argc]) > 2147483647
+		|| ft_atoi(argv[argc]) < -2147483648)
+		return (0);
+	i = argc;
+	while (i > 1)
+	{
+		if (ft_atoi(argv[argc]) == ft_atoi(argv[i - 1]))
+			return (0);
+		i--;
+	}
+	return (1);
+}
+
 int	is_valid_arguments(int argc, char *argv[])
 {
 	int	i;
@@ -55,6 +72,8 @@ int	is_valid_arguments(int argc, char *argv[])
 		return (0);
 	while (argc-- > 1)
 	{
+		if (!argv[argc][0])
+			return (0);
 		i = 0;
 		while (argv[argc][i])
 		{
@@ -64,14 +83,8 @@ int	is_valid_arguments(int argc, char *argv[])
 				return (0);
 			i++;
 		}
-		if (ft_atoi(argv[argc]) > 2147483647
-			|| ft_atoi(argv[argc]) < -2147483648)
+		if (!check_numbers(argc, argv))
 			return (0);
-		while (argc-- - 1 > 1)
-		{
-			if (!ft_strcmp(argv[argc], argv[argc - 1]))
-				return (0);
-		}
 	}
 	return (1);
 }
