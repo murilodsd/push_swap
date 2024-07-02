@@ -2,7 +2,7 @@ CC=cc
 CCFLAGS=-Wall -Wextra -Werror
 AR=ar
 ARFLAGS=rcs
-NAME=libft.a
+NAME=../libft.a
 SRCS_LIBFT=ft_itoa.c ft_putstr_fd.c ft_strmapi.c \
 ft_atoi.c  ft_memchr.c ft_split.c ft_strcmp.c ft_strncmp.c \
 ft_bzero.c  ft_memcmp.c ft_strchr.c ft_strnstr.c \
@@ -34,7 +34,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CCFLAGS) -c $< -o $@ -I $(INCLUDE)
 
 clean:
-	$(RM) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(RM) $(NAME)
