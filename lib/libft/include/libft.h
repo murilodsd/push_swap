@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:52:36 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/03 07:37:14 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:40:55 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct tag_parameter
 	char	tag;
 }	t_params;
 
-typedef unsigned long ul;
+typedef unsigned long	t_ul;
 
 int		ft_putchar_fd(char c, int fd);
 int		ft_putstr_fd(char *s, int fd);
@@ -98,12 +98,12 @@ int		ft_tolower(int c);
 //---------------------FT_PRINTF--------------------------//
 //--------------------------------------------------------//
 int		ft_printf(const char *format, ...);
-int		ft_putnbr_hexabase_fd(ul nbr, char *base, int fd);
+int		ft_putnbr_hexabase_fd(t_ul nbr, char *base, int fd);
 int		ft_printnbr_fd(long nbr, t_params params, int fd);
 int		ft_print_s_fd(char *s, t_params params, int fd);
-int		ft_printnbr_base_fd(ul nbr, t_params params, char *base, int fd);
+int		ft_printnbr_base_fd(t_ul nbr, t_params params, char *base, int fd);
 int		ft_printchar_fd(char c, t_params params, int fd);
-int		ft_print_p_fd(ul p, t_params params, int fd);
+int		ft_print_p_fd(t_ul p, t_params params, int fd);
 //--------------------------------------------------------//
 //--------------------GET_NEXT_LINE-----------------------//
 //--------------------------------------------------------//

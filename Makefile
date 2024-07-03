@@ -17,7 +17,8 @@ OBJS_NAMES_BONUS=$(SRCS_NAMES_BONUS:.c=.o)
 OBJS_BONUS=$(addprefix $(OBJ_PATH), $(OBJS_NAMES_BONUS))
 LIBS=-lft
 LIB_PATH=-L lib
-INCLUDE=-I ./include -I ./lib/*/include
+INCLUDE_PATH=./include/ ./lib/*/include/
+INCLUDE=$(addprefix -I , $(INCLUDE_PATH))
 RM=rm -f
 
 all: $(NAME)
@@ -47,7 +48,8 @@ fclean: clean
 re: fclean all bonus
 
 norm:
-	norminette $(SRCS)
+	norminette -R CheckForbiddenSourceHeader $(SRCS) $(SRCS_BONUS)
+	norminette -R CheckDefine $(INCLUDE_PATH)*.h
 
 run:
 	./push_swap $(ARGS)
