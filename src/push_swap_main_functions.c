@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 20:33:16 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/02 14:05:46 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/03 12:18:24 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,7 @@ int	main(int argc, char *argv[])
 	t_stack_ref	*stack_ref_a;
 	t_stack_ref	*stack_ref_b;
 
-	if (!is_valid_arguments(argc, argv))
-	{
-		if (argc != 1)
-			write(2, "Error\n", 6);
-		return (EXIT_FAILURE);
-	}
+	validate_args (argc, argv);
 	stack_ref_a = ft_initstack(argc, argv, 'a');
 	if (!stack_ref_a)
 		return (EXIT_FAILURE);
@@ -140,6 +135,11 @@ int	main(int argc, char *argv[])
 		return (EXIT_SUCCESS);
 	}
 	stack_ref_b = ft_stacknewref('b');
+	if (!stack_ref_b)
+	{
+		ft_stackfree(&stack_ref_a);
+		return (EXIT_FAILURE);
+	}
 	sort_a(stack_ref_a, stack_ref_b);
 	//printf("tamanho a: %d\ntamanho b: %d\n",ft_stacksize(stack_ref_a),ft_stacksize(stack_ref_b));
 	ft_stackfree(&stack_ref_a);

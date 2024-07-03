@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 22:46:58 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/02 13:38:42 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:37:13 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_moves	init_moves(void)
 	return (moves);
 }
 
-static int	check_numbers(int argc, char *argv[])
+static int	validate_numbers(int argc, char *argv[])
 {
 	int	i;
 
@@ -64,27 +64,32 @@ static int	check_numbers(int argc, char *argv[])
 	return (1);
 }
 
-int	is_valid_arguments(int argc, char *argv[])
+static void	show_error(void)
+{
+	write(2, "Error\n", 6);
+	exit (EXIT_FAILURE);
+}
+
+void	validate_args(int argc, char *argv[])
 {
 	int	i;
 
 	if (argc == 1)
-		return (0);
+		exit (EXIT_FAILURE);
 	while (argc-- > 1)
 	{
 		if (!argv[argc][0])
-			return (0);
+			show_error();
 		i = 0;
 		while (argv[argc][i])
 		{
 			if (i == 0 && (argv[argc][i] == '+' || argv[argc][i] == '-'))
 				i++;
 			if (!ft_isdigit(argv[argc][i]))
-				return (0);
+				show_error();
 			i++;
 		}
-		if (!check_numbers(argc, argv))
-			return (0);
+		if (!validate_numbers(argc, argv))
+			show_error();
 	}
-	return (1);
 }

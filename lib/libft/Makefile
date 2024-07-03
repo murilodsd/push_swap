@@ -3,6 +3,7 @@ CCFLAGS=-Wall -Wextra -Werror
 AR=ar
 ARFLAGS=rcs
 NAME=../libft.a
+SRC_PATH=src/
 SRCS_LIBFT=ft_itoa.c ft_putstr_fd.c ft_strmapi.c \
 ft_atoi.c  ft_memchr.c ft_split.c ft_strcmp.c ft_strncmp.c \
 ft_bzero.c  ft_memcmp.c ft_strchr.c ft_strnstr.c \
@@ -19,10 +20,12 @@ ft_lstsize.c
 SRCS_PRINTF=ft_printf.c ft_print_p_fd.c \
 ft_printnbr_fd.c ft_print_s_c_fd.c ft_printnbr_base_fd.c
 SRCS_GET_NEXT_LINE=get_next_line.c
-
-SRCS=$(SRCS_LIBFT) $(SRCS_PRINTF) $(SRCS_GET_NEXT_LINE)
-OBJS=$(SRCS:.c=.o)
-INCLUDE=./
+SRCS_NAMES=$(SRCS_LIBFT) $(SRCS_PRINTF) $(SRCS_GET_NEXT_LINE)
+SCR=$(addprefix $(SRC_PATH), $(SRCS_NAMES))
+OBJ_PATH=build/
+OBJS_NAMES=$(SRCS_NAMES:.c=.o)
+OBJS=$(addprefix $(OBJ_PATH), $(OBJS_NAMES))
+INCLUDE=-I ./include
 RM=rm -f
 
 all: $(NAME)
@@ -30,8 +33,9 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $?
 
-%.o: %.c
-	$(CC) $(CCFLAGS) -c $< -o $@ -I $(INCLUDE)
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(CCFLAGS) -c $< -o $@ $(INCLUDE)
 
 clean:
 	$(RM) $(OBJS)

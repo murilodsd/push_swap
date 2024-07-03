@@ -1,19 +1,24 @@
 CC=cc
-CCFLAGS=-Wall -Wextra -Werror
+CCFLAGS=-Wall -Wextra -Werror -g
 NAME=push_swap
+NAME_BONUS=checker
 SRC_PATH=src/
 SRCS_NAMES= push_swap_commands.c push_swap_calculate_moves.c stack_functions2.c \
 push_swap_main_functions.c push_swap_init.c \
 push_swap_push_all_sorted_aux.c stack_functions.c
 SRCS=$(addprefix $(SRC_PATH), $(SRCS_NAMES))
+SRCS_NAMES_BONUS= checker_bonus.c push_swap_commands.c stack_functions2.c \
+push_swap_init.c stack_functions.c
+SRCS_BONUS=$(addprefix $(SRC_PATH), $(SRCS_NAMES))
 OBJ_PATH=build/
 OBJS_NAMES=$(SRCS_NAMES:.c=.o)
 OBJS=$(addprefix $(OBJ_PATH), $(OBJS_NAMES))
+OBJS_NAMES_BONUS=$(SRCS_NAMES_BONUS:.c=.o)
+OBJS_BONUS=$(addprefix $(OBJ_PATH), $(OBJS_NAMES_BONUS))
 LIBS=-lft
 LIB_PATH=-L lib
-INCLUDE=-I ./include -I ./lib/libft/
+INCLUDE=-I ./include -I ./lib/*/include
 RM=rm -f
-
 
 all: $(NAME)
 
@@ -21,33 +26,30 @@ $(NAME): $(OBJS)
 	make all -C lib/libft
 	$(CC) $(CCFLAGS) $(OBJS) $(INCLUDE) $(LIB_PATH) $(LIBS) -o $(NAME)
 
-bonus: all
+bonus: $(NAME_BONUS)
 
-$(OBJ_PATH)%.o: $(SRC_PATH)/%.c
+$(NAME_BONUS): $(OBJS_BONUS)
+	make all -C lib/libft
+	$(CC) $(CCFLAGS) $(OBJS_BONUS) $(INCLUDE) $(LIB_PATH) $(LIBS) -o $(NAME_BONUS)
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	mkdir -p $(OBJ_PATH)
 	$(CC) $(CCFLAGS) -c $< -o $@ $(INCLUDE)
 
 clean:
 	make clean -C lib/libft
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
 	make fclean -C lib/libft
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME_BONUS)
 
-re: fclean all
+re: fclean all bonus
 
 norm:
 	norminette $(SRCS)
 
-run: all
+run:
 	./push_swap $(ARGS)
 
-checker:
-	./push_swap $(ARGS) | ./checker_linux $(ARGS)
-
-git:
-	git add .
-	git commit -m"$(MSG)"
-	git push
-
-.PHONY=all bonus clean fclean re norm
+.PHONY=all bonus clean fclean re norm run

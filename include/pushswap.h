@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:28:27 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/02 13:41:19 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:37:02 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ typedef struct moves
 	int	rrr;
 } t_moves;
 
-int	is_valid_arguments(int argc, char *argv[]);
+void	validate_args(int argc, char *argv[]);
 t_stack_ref	*ft_stacknewref(char stack_name);
 t_stack	*ft_stacknewnode(int nbr);
-void	ft_stackpush(t_stack_ref *stack_ref, t_stack *new);
 void	ft_stackprepend(t_stack_ref *stack_ref, t_stack *new);
 int		ft_stacksize(t_stack_ref *stack_ref);
 void	ft_stackfree(t_stack_ref **stack_ref);
