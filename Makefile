@@ -4,11 +4,11 @@ NAME=push_swap
 NAME_BONUS=checker
 SRC_PATH=src/
 SRCS_NAMES= push_swap_commands.c push_swap_calculate_moves.c stack_functions2.c \
-push_swap_main_functions.c push_swap_init.c \
+push_swap_main_functions.c push_swap_init.c push_swap_validation.c \
 push_swap_push_all_sorted_aux.c stack_functions.c
 SRCS=$(addprefix $(SRC_PATH), $(SRCS_NAMES))
 SRCS_NAMES_BONUS= checker_bonus.c push_swap_commands.c stack_functions2.c \
-push_swap_init.c stack_functions.c
+push_swap_init.c stack_functions.c push_swap_validation.c
 SRCS_BONUS=$(addprefix $(SRC_PATH), $(SRCS_NAMES))
 OBJ_PATH=build/
 OBJS_NAMES=$(SRCS_NAMES:.c=.o)

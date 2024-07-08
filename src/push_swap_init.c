@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 22:46:58 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/03 13:37:13 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/06 20:33:23 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,51 +45,4 @@ t_moves	init_moves(void)
 	moves.rrb = 0;
 	moves.rrr = 0;
 	return (moves);
-}
-
-static int	validate_numbers(int argc, char *argv[])
-{
-	int	i;
-
-	if (ft_atoi(argv[argc]) > 2147483647
-		|| ft_atoi(argv[argc]) < -2147483648)
-		return (0);
-	i = argc;
-	while (i > 1)
-	{
-		if (ft_atoi(argv[argc]) == ft_atoi(argv[i - 1]))
-			return (0);
-		i--;
-	}
-	return (1);
-}
-
-static void	show_error(void)
-{
-	write(2, "Error\n", 6);
-	exit (EXIT_FAILURE);
-}
-
-void	validate_args(int argc, char *argv[])
-{
-	int	i;
-
-	if (argc == 1)
-		exit (EXIT_FAILURE);
-	while (argc-- > 1)
-	{
-		if (!argv[argc][0])
-			show_error();
-		i = 0;
-		while (argv[argc][i])
-		{
-			if (i == 0 && (argv[argc][i] == '+' || argv[argc][i] == '-'))
-				i++;
-			if (!ft_isdigit(argv[argc][i]))
-				show_error();
-			i++;
-		}
-		if (!validate_numbers(argc, argv))
-			show_error();
-	}
 }

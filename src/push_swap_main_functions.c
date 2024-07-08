@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 20:33:16 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/03 12:18:24 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:19:27 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,10 @@ int	main(int argc, char *argv[])
 	t_stack_ref	*stack_ref_a;
 	t_stack_ref	*stack_ref_b;
 
-	validate_args (argc, argv);
-	stack_ref_a = ft_initstack(argc, argv, 'a');
+	stack_ref_a = validate_args(argc, argv, 'a');
 	if (!stack_ref_a)
 		return (EXIT_FAILURE);
+	stack_top_print(stack_ref_a);
 	if (ft_stack_issorted(stack_ref_a))
 	{
 		ft_stackfree(&stack_ref_a);
@@ -136,10 +136,7 @@ int	main(int argc, char *argv[])
 	}
 	stack_ref_b = ft_stacknewref('b');
 	if (!stack_ref_b)
-	{
-		ft_stackfree(&stack_ref_a);
-		return (EXIT_FAILURE);
-	}
+		exit_free(&stack_ref_a, NULL, NULL, NULL);
 	sort_a(stack_ref_a, stack_ref_b);
 	//printf("tamanho a: %d\ntamanho b: %d\n",ft_stacksize(stack_ref_a),ft_stacksize(stack_ref_b));
 	ft_stackfree(&stack_ref_a);
