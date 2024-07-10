@@ -48,8 +48,8 @@ fclean: clean
 re: fclean all bonus
 
 norm:
-	norminette -R CheckForbiddenSourceHeader $(SRCS) $(SRCS_BONUS)
 	norminette -R CheckDefine $(INCLUDE_PATH)*.h
+	norminette -R CheckForbiddenSourceHeader $(SRC_PATH)*.c
 
 run:
 	./push_swap $(ARGS)

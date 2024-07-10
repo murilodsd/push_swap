@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 07:41:56 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/07 11:08:19 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:57:27 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char *argv[])
 	stack_a = validate_args(argc, argv, 'a');
 	stack_b = ft_stacknewref('b');
 	instruction = get_next_line(STDIN_FILENO);
-	if (!stack_a || !stack_b || instruction)
+	if (!stack_a || !stack_b)
 		exit_free(&stack_a, &stack_b, &instruction, NULL);
 	while (instruction)
 	{

@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:28:27 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/07 07:54:19 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:15:28 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void		ft_stackprepend(t_stack_ref *stack_ref, t_stack *new);
 void		ft_stackpush(t_stack_ref *stack_ref, t_stack *new);
 int			ft_stacksize(t_stack_ref *stack_ref);
 void		ft_stackfree(t_stack_ref **stack_ref);
-void		exit_free(t_stack_ref **stack_a, t_stack_ref **stack_b, char **str, char ***arr_str);
+void		exit_free(t_stack_ref **stack_a, t_stack_ref **stack_b, \
+		char **str, char ***arr_str);
 void		ft_stack_reset(t_stack_ref *stack_ref);
 int			ft_stack_issorted(t_stack_ref *stack_ref);
 t_stack_ref	*validate_args(int argc, char *argv[], char stack_name);
-t_stack_ref	*ft_initstack(int argc, char *argv[], char stack_name);
 t_moves		init_moves(void);
 void		stackswaptop(t_stack_ref *stack_ref);
 void		stackrotate_up(t_stack_ref *stack_ref);

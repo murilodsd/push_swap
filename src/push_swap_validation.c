@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:12:31 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/07 12:24:57 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:17:57 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	validate_numbers(t_stack_ref	*stack_ref)
 {
 	t_stack	*tmp;
 	t_stack	*next;
-	
+
 	tmp = stack_ref->bottom;
 	while (tmp->next)
 	{
@@ -32,16 +32,10 @@ static int	validate_numbers(t_stack_ref	*stack_ref)
 	return (1);
 }
 
-/* static void	show_error(void)
-{
-	write(2, "Error\n", 6);
-	exit (EXIT_FAILURE);
-} */
-
 void	free_arr_str(char ***arr_str)
-{	
+{
 	int	i;
-	
+
 	if (*arr_str)
 	{
 		i = 0;
@@ -51,11 +45,12 @@ void	free_arr_str(char ***arr_str)
 			(*arr_str)[i++] = NULL;
 		}
 		free(*arr_str);
-		*arr_str = NULL;	
+		*arr_str = NULL;
 	}
 }
 
-void	exit_free(t_stack_ref **stack_a, t_stack_ref **stack_b, char **str, char ***arr_str)
+void	exit_free(t_stack_ref **stack_a, t_stack_ref **stack_b, \
+	char **str, char ***arr_str)
 {
 	if (stack_a != NULL)
 		ft_stackfree(stack_a);
@@ -77,36 +72,36 @@ void	split_args_init_stack(t_stack_ref **stack_ref, char ***splited_arg)
 	int		i;
 	int		j;
 	t_stack	*node;
-	
+
 	i = 0;
-	while((*splited_arg)[i])
+	while ((*splited_arg)[i])
+	{
+		j = 0;
+		while ((*splited_arg)[i][j])
 		{
-			j = 0;
-			while ((*splited_arg)[i][j])
-			{
-				if (j == 0 && ((*splited_arg)[i][j] == '+' || (*splited_arg)[i][j] == '-'))
-					j++;
-				if (!ft_isdigit((*splited_arg)[i][j]))
-					exit_free(stack_ref, NULL, NULL, splited_arg);
+			if (j == 0 && ((*splited_arg)[i][j] == '+'
+				|| (*splited_arg)[i][j] == '-'))
 				j++;
-			}
-			if (ft_atoi((*splited_arg)[i]) > 2147483647
-				|| ft_atoi((*splited_arg)[i]) < -2147483648)
+			if (!ft_isdigit((*splited_arg)[i][j]))
 				exit_free(stack_ref, NULL, NULL, splited_arg);
-			node = ft_stacknewnode(ft_atoi((*splited_arg)[i]));
-			if (!node)
-				exit_free(stack_ref, NULL, NULL, splited_arg);
-			ft_stackprepend(*stack_ref, node);
-			i++;
+			j++;
 		}
+		if (ft_atoi((*splited_arg)[i]) > 2147483647
+			|| ft_atoi((*splited_arg)[i]) < -2147483648)
+			exit_free(stack_ref, NULL, NULL, splited_arg);
+		node = ft_stacknewnode(ft_atoi((*splited_arg)[i++]));
+		if (!node)
+			exit_free(stack_ref, NULL, NULL, splited_arg);
+		ft_stackprepend(*stack_ref, node);
+	}
 }
 
 t_stack_ref	*validate_args(int argc, char *argv[], char stack_name)
 {
-	int		i;
-	char	**splited_arg;
+	int			i;
+	char		**splited_arg;
 	t_stack_ref	*stack_ref;
-	
+
 	if (argc == 1)
 		exit (EXIT_FAILURE);
 	stack_ref = ft_stacknewref(stack_name);
@@ -115,7 +110,6 @@ t_stack_ref	*validate_args(int argc, char *argv[], char stack_name)
 	i = 1;
 	while (argc-- > 1)
 	{
-		ft_printf("arg %d é o %s\n", i, argv[i]);
 		splited_arg = ft_split(argv[i], ' ');
 		if (!splited_arg)
 			exit_free(&stack_ref, NULL, NULL, NULL);

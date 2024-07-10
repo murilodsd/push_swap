@@ -6,17 +6,11 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:10:46 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/06 21:45:05 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:05:40 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
-
-void	ft_stack_reset(t_stack_ref *stack_ref)
-{
-	stack_ref->bottom = NULL;
-	stack_ref->top = NULL;
-}
 
 void	ft_stackprepend(t_stack_ref *stack_ref, t_stack *new)
 {
