@@ -6,7 +6,7 @@
 /*   By: mde-souz <mde-souz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:53:45 by mde-souz          #+#    #+#             */
-/*   Updated: 2024/07/02 13:07:35 by mde-souz         ###   ########.fr       */
+/*   Updated: 2024/07/12 21:25:41 by mde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,24 @@
 
 void	stackswaptop(t_stack_ref *stack_ref)
 {
+	int	stack_size;
+
+	stack_size = ft_stacksize(stack_ref);
 	if (!stack_ref)
 		return ;
-	if (ft_stacksize(stack_ref) < 2)
+	if (stack_size < 2)
 		return ;
 	stack_ref->top->next = stack_ref->top->previous;
-	stack_ref->top->previous->previous->next = stack_ref->top;
-	stack_ref->top->previous = stack_ref->top->previous->previous;
+	if (stack_size > 2)
+	{
+		stack_ref->top->previous->previous->next = stack_ref->top;
+		stack_ref->top->previous = stack_ref->top->previous->previous;
+	}
+	else
+	{
+		stack_ref->bottom = stack_ref->top;
+		stack_ref->top->previous = NULL;
+	}
 	stack_ref->top->next->previous = stack_ref->top;
 	stack_ref->top->next->next = NULL;
 	stack_ref->top = stack_ref->top->next;
@@ -66,7 +77,6 @@ void	stackrotate_down(t_stack_ref *stack_ref)
 	stack_ref->top = current_bottom;
 	stack_ref->top->previous = current_top;
 	stack_ref->top->next = NULL;
-	//OLD TOP	
 	current_top->next = stack_ref->top;
 }
 
